@@ -17,7 +17,7 @@
 <br>Mas não sou bom em nenhuma dessas, mais eu tendo pois é com esforço que se chega no topo.<br/>
 
 <div align="center">
-<img src="https://private-user-images.githubusercontent.com/77739311/271384939-4e9f41af-6b57-49a7-b15a-74322e96b4d7.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzI2MjgzNTMsIm5iZiI6MTczMjYyODA1MywicGF0aCI6Ii83NzczOTMxMS8yNzEzODQ5MzktNGU5ZjQxYWYtNmI1Ny00OWE3LWIxNWEtNzQzMjJlOTZiNGQ3LmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDExMjYlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQxMTI2VDEzMzQxM1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWFkYzFiOTc3MGMxODBhOWFmODQ3OGZiNDg5ZjA0ZDgwYWUxM2U1YmRlN2M4OWU4MzRiZTNkOGRkZDViNzRlOTYmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.fnF1LCLRqnYlmfSWVTubc_vfucZu47oA0RpDQS0k2Dc" alt="Descrição do GIF" width="60%">
+<img src="https://i.pinimg.com/originals/ee/be/c2/eebec221a5c81c9280325bfb96f94be7.gif" alt="Descrição do GIF" width="50%">
 </div>
 
 ## 💡  Minha experiência profissional:
