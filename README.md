@@ -5,41 +5,24 @@
 
 [![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=7B68EE&size=35&center=true&vCenter=true&width=1000&lines=Olá+bem-vindo+ao+meu+perfil👋;Hello+welcome+to+my+profile👋;Ciao+benvenuto+al+mio+profilo👋;+:%29)](https://git.io/typing-svg)
 
-## 👨‍💻 Quem sou eu
+##  Quem sou eu
 
-🙋‍♂️Sou Gabriel Damico tenho 19 anos e amo tecnologia em geral, acredito que através dela é possível impactar a vida de várias pessoas além de contribuir para o desenvolvimento de um mundo mais justo. Além disso, amo aprender coisas novas, conhecer novos lugares e novas histórias. Em meu tempo livre gosto de criar histórias de RPG com amigos e jogar online 🤓.
+🙋‍♂️Sou Jucivaldo Vale tenho 16 anos e amo desenhar, sou atual estudante do Instituto federal do Maranhão IFMA, do curso de informática e moro em Açailândia, eu acredito que a vida não é apenas sobre o que conseguimos conquistar, mas também sobre como vivemos os momentos, as risadas e as aventuras ao longo do caminho. Não se trata apenas de responsabilidades e obrigações, mas de brincar, de sonhar, de ser leve e de se divertir. Cada história, cada passo, cada desafio nos ensina algo novo.Além disso, amo aprender coisas novas, conhecer novos lugares e novas histórias. Em meu tempo livre gosto de brincar, desenhar ou fazer qualquer coisa que envolva aventura e emoção🤓.
 
-📖 Atualmente estou participando da Residência em TIC pelo Serratec 2023.1
 
-📚 Além disso, também estou no 3° periodo de Ciência da Computação na <a href="https://descomplica.com.br/faculdade/"> Faculdade Descomplica </a>e a previsão de conclusão do curso é em 12/2026
-
-<br/>
-
-## 📂 O que você vai encontrar no meu perfil
-
-A maioria de meus projetos são uma mistura de coisas que eu criei por conta própria, trabalhos da faculdade e cursos que fiz, então você pode esperar ver um pouco de tudo por aqui.
-
-- ▶ <a href="https://github.com/Arawns1/Atividades-Faculdade">Trabalhos da faculdade</a>
-- ▶ <a href= "https://github.com/Arawns1/Serratec-2023.1"> Projetos realizados no Serratec 2023.1 </a>
-
-<br/>
-
- ## 💻Tecnologias que uso:
-![Java](https://img.shields.io/badge/Java-0D1117?style=for-the-badge&logo=openjdk&logoColor=white)
-![Postgree](https://img.shields.io/badge/-PostgreSQL-0D1117?style=for-the-badge&logo=postgresql&labelColor=0D1117)&nbsp;
+## 💻Tecnologias que uso:
 ![JavaScript](https://img.shields.io/badge/-JavaScript-0D1117?style=for-the-badge&logo=javascript&labelColor=0D1117)&nbsp;
 ![HTML5](https://img.shields.io/badge/-HTML-0D1117?style=for-the-badge&logo=html5&labelColor=0D1117)&nbsp;
 ![CSS3](https://img.shields.io/badge/-CSS-0D1117?style=for-the-badge&logo=CSS3&logoColor=1572B6&labelColor=0D1117)&nbsp;
-![GIT](https://img.shields.io/badge/Git-0D1117?style=for-the-badge&logo=git&logoColor=E34F26)
 ![LINUX](https://img.shields.io/badge/Linux-0D1117?style=for-the-badge&logo=linux&logoColor=white)
-![React](https://img.shields.io/badge/-React-0D1117?style=for-the-badge&logo=react&labelColor=0D1117)&nbsp;
-![Bootstrap](https://img.shields.io/badge/Bootstrap-0D1117?style=for-the-badge&logo=bootstrap&logoColor=563D7C)&nbsp;
+<br>Mas não sou bom em nenhuma dessas, mais eu tendo pois é com esforço que se chega no topo.<br/>
 
-## ✨Tecnologias que tenho interesse:
-![Typescript](https://img.shields.io/badge/-Typescript-0D1117?style=for-the-badge&logo=typescript&labelColor=0D1117&textColor=0D1117)&nbsp;
-![Node.JS](https://img.shields.io/badge/-Node.JS-0D1117?style=for-the-badge&logo=node.js&labelColor=0D1117&textColor=0D1117)&nbsp;
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Arawns1/Arawns1/blob/output/dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/Arawns1/Arawns1/blob/output/light.svg">
+  <img alt="Mostra uma cobra comendo commits" src="https://github.com/Arawns1/Arawns1/blob/output/dark.svg">
+</picture>
 
-<br/>
 
 ## 📊 Algumas estatísticas
 <div align="center">  
