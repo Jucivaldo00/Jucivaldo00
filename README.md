@@ -1,9 +1,9 @@
 
 
-<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=8A2BE2&height=120&section=header"/>
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=EB2D0A&height=120&section=header"/>
 
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=7B68EE&size=35&center=true&vCenter=true&width=1000&lines=Olá+bem-vindo+ao+meu+perfil👋;+:%29)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=EB2D0A&size=35&center=true&vCenter=true&width=1000&lines=Olá+bem-vindo+ao+meu+perfil👋;+:%29)](https://git.io/typing-svg)
 
 ##  Quem sou eu
 
@@ -22,16 +22,14 @@
 
 ## 📊 Algumas estatísticas
 <div align="center">  
-  <img width="49%" height="195px" src="https://github-readme-stats.vercel.app/api?username=arawns1&show_icons=true&count_private=true&hide_border=true&title_color=7B68EE&icon_color=7B68EE&text_color=D3D3D3&bg_color=0d1117" alt="Gabriel Damico github stats" /> 
-  <img width="41%" height="195px" src="https://github-readme-stats.vercel.app/api/top-langs/?username=arawns1&layout=compact&hide_border=true&title_color=7B68EE&text_color=D3D3D3&bg_color=0d1117" />
+  <img width="49%" height="195px" src="https://github-readme-stats.vercel.app/api?username=arawns1&show_icons=true&count_private=true&hide_border=true&title_color=EB091D&icon_color=EB091D&text_color=EB091D&bg_color=#EB2D0A" alt="Gabriel Damico github stats" /> 
+  <img width="41%" height="195px" src="https://github-readme-stats.vercel.app/api/top-langs/?username=arawns1&layout=compact&hide_border=true&title_color=EB091D&text_color=D3D3D3&bg_color=0d1117" />
 </div>
 
 
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Arawns1/Arawns1/blob/output/dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/Arawns1/Arawns1/blob/output/light.svg">
-  <img alt="Mostra uma cobra comendo commits" src="https://github.com/Arawns1/Arawns1/blob/output/dark.svg">
+    <img src="https://user-images.githubusercontent.com/78452566/140799812-a9c3a701-3b74-47fb-be11-c2363d68cd31.gif">
 </picture>
 
 
@@ -42,11 +40,7 @@
 E se você tiver alguma dúvida ou sugestão, fique à vontade para entrar em contato comigo pelos contatos abaixo! Estou sempre procurando aprender mais e trocar ideias.
 
 <div align="center"> 
-<a href = "mailto:gabrieldamico22@gmail.com"> <img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
-<a href="https://www.linkedin.com/in/gabriel-damico/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" style="border-radius: 30px" target="_blank"></a> 
-<a href="https://www.behance.net/arawns_designer" target="_blank"><img src="https://img.shields.io/badge/-Behance-%23333?style=for-the-badge&color=0067ff&logo=behance&logoColor=white" style="border-radius: 30px" target="_blank"></a> 
-<a href = "" target="_blank"> <img src="https://img.shields.io/badge/-discord-%23333?style=for-the-badge&logo=discord&logoColor=white&color=7289da" ></a>
-<a href = "https://www.hackerrank.com/arawns" target ="_blank"> <img src ="https://img.shields.io/badge/-Hackerrank-230077B5?style=for-the-badge&logo=HackerRank&logoColor=white"></a>
+<a href = "mailto:jucivaldo.g@acad.ifma.edu.br"> <img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
 </div>
 
-<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=8A2BE2&height=120&section=footer"/>
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=EB2D0A&height=120&section=footer"/>
