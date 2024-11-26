@@ -38,12 +38,6 @@
 
 ###
 
-<br clear="both">
-
-<img src="https://raw.githubusercontent.com/jucivaldo00/jucivaldo00/output/snake.svg" alt="Snake animation" />
-
-###
-
 <div align="center">
   <img height="200" src="https://i.pinimg.com/originals/4f/1c/92/4f1c9201621190081ad64d60a56ff126.gif"  />
 </div>
