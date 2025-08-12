@@ -1,0 +1,135 @@
+/* Estilos Gerais Responsivos */
+@media (max-width: 992px) {
+    /* Header e Navegação */
+    .header-container {
+        flex-wrap: wrap;
+        padding: 0.5rem;
+        position: relative;
+    }
+
+    .menu-toggle {
+        display: block;
+        order: 1;
+        margin-left: auto;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #4a6baf;
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    nav {
+        width: 100%;
+        order: 3;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+    }
+
+    .nav-active {
+        max-height: 500px !important;
+        padding: 1rem 0;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav-item {
+        margin: 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .nav-link {
+        padding: 1rem;
+        justify-content: flex-start;
+    }
+
+    #user-info {
+        padding: 1rem;
+        border-top: 1px solid #eee;
+    }
+
+    /* Conteúdo do Carrinho */
+    .cart-content {
+        flex-direction: column;
+    }
+
+    .cart-items {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .cart-summary {
+        width: 100%;
+        position: static;
+    }
+
+    /* Itens do Carrinho */
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cart-item-image {
+        width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+    }
+
+    .cart-item-details {
+        width: 100%;
+    }
+
+    .cart-item-total {
+        width: 100%;
+        text-align: left;
+        margin-top: 1rem;
+    }
+
+    .cart-item-quantity {
+        justify-content: flex-start;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Ajustes para telas muito pequenas */
+    .cart-item-quantity {
+        flex-wrap: wrap;
+    }
+
+    .quantity-btn, .remove-btn {
+        margin: 0.25rem;
+    }
+
+    .summary-details {
+        padding: 1rem;
+    }
+
+    .btn-checkout {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+/* Estilos do Menu Hamburguer */
+.menu-toggle {
+    display: none; /* Escondido por padrão (só aparece no mobile) */
+}
+
+@media (max-width: 992px) {
+    .menu-toggle {
+        display: block; /* Mostra o botão no mobile */
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+}

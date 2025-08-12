@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar-se | Juciloja</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Estilos consistentes com a página de login */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #71b7e6, #9b59b6);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .wrapper {
+      width: 400px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+    
+    h2 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .input-field {
+      position: relative;
+      margin-bottom: 25px;
+    }
+    
+    .input-field input {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #fff;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+    
+    .input-field label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #fff;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+    
+    .input-field input:focus ~ label,
+    .input-field input:valid ~ label {
+      top: -15px;
+      font-size: 12px;
+      color: #e2e2e2;
+    }
+    
+    .password-container {
+      position: relative;
+    }
+    
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      cursor: pointer;
+    }
+    
+    .terms {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      color: #fff;
+      font-size: 14px;
+    }
+    
+    .terms label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    
+    .terms a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .terms a:hover {
+      text-decoration: underline;
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #fff;
+      border: none;
+      border-radius: 5px;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+    
+    button:hover {
+      background: #f0f0f0;
+    }
+    
+    .google-btn {
+      background: #4285F4;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .google-btn:hover {
+      background: #357ae8;
+    }
+    
+    .login {
+      text-align: center;
+      color: #fff;
+      font-size: 14px;
+    }
+    
+    .login a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .login a:hover {
+      text-decoration: underline;
+    }
+    
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: #fff;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .divider-text {
+      padding: 0 10px;
+    }
+    
+    .password-strength {
+      height: 4px;
+      background: #ddd;
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    
+    .strength-meter {
+      height: 100%;
+      width: 0%;
+      background: red;
+      transition: width 0.3s, background 0.3s;
+    }
+    
+    .password-hints {
+      color: #fff;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <form action="#">
+      <h2>Criar Conta</h2>
+      <div class="input-field">
+        <input type="text" id="name" required autocomplete="name">
+        <label>Nome completo</label>
+      </div>
+      <div class="input-field">
+        <input type="email" id="email" required autocomplete="email">
+        <label>E-mail</label>
+      </div>
+      <div class="input-field password-container">
+        <input type="password" id="password" required autocomplete="new-password">
+        <label>Senha</label>
+        <i class="toggle-password fas fa-eye" id="togglePassword"></i>
+        <div class="password-strength">
+          <div class="strength-meter" id="strengthMeter"></div>
+        </div>
+        <div class="password-hints" id="passwordHints">
+          A senha deve ter pelo menos 6 caracteres
+        </div>
+      </div>
+      <div class="input-field password-container">
+        <input type="password" id="confirmPassword" required autocomplete="new-password">
+        <label>Confirmar Senha</label>
+        <i class="toggle-password fas fa-eye" id="toggleConfirmPassword"></i>
+      </div>
+      
+      <div class="terms">
+        <label for="acceptTerms">
+          <input type="checkbox" id="acceptTerms" required>
+          <p>Eu concordo com os <a href="#">Termos de Serviço</a> e <a href="#">Política de Privacidade</a></p>
+        </label>
+      </div>
+      
+      <button type="submit" id="registerBtn">Registrar-se</button>
+      
+      <div class="divider">
+        <span class="divider-text">OU</span>
+      </div>
+      
+      <button type="button" class="google-btn" id="googleRegister">
+        <i class="fab fa-google"></i> Registrar-se com Google
+      </button>
+      
+      <div class="login">
+        <p>Já possui uma conta? <a href="Login.html">Faça login</a></p>
+      </div>
+    </form>
+  </div>
+
+  <!-- Firebase SDK v9 (modular) -->
+  <script type="module">
+    // Importações do Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword,
+      signInWithPopup, 
+      GoogleAuthProvider,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    // Configuração do Firebase para o projeto Juciloja
+    const firebaseConfig = {
+      apiKey: "AIzaSyDeydDlOVXSAIiatAJldHv1OOXQpHAmSUw",
+      authDomain: "juciloja.firebaseapp.com",
+      projectId: "juciloja",
+      storageBucket: "juciloja.appspot.com",
+      messagingSenderId: "560206416707",
+      appId: "1:560206416707:web:98c7d4ff8bfc3e297bbdf6",
+      measurementId: "G-MB1LJDK3G3"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // Elementos do DOM
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const togglePassword = document.getElementById('togglePassword');
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    const registerBtn = document.getElementById('registerBtn');
+    const googleRegisterBtn = document.getElementById('googleRegister');
+    const registerForm = document.querySelector('form');
+    const strengthMeter = document.getElementById('strengthMeter');
+    const passwordHints = document.getElementById('passwordHints');
+
+    // Mostrar/ocultar senha
+    togglePassword.addEventListener('click', function() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.classList.toggle('fa-eye-slash');
+    });
+
+    toggleConfirmPassword.addEventListener('click', function() {
+      const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      confirmPasswordInput.setAttribute('type', type);
+      this.classList.toggle('fa-eye-slash');
+    });
+
+    // Validação de força da senha
+    passwordInput.addEventListener('input', function() {
+      const password = this.value;
+      let strength = 0;
+      
+      // Verifica o comprimento
+      if (password.length >= 6) strength += 20;
+      if (password.length >= 8) strength += 20;
+      
+      // Verifica caracteres diversos
+      if (/[A-Z]/.test(password)) strength += 20;
+      if (/[0-9]/.test(password)) strength += 20;
+      if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+      
+      // Atualiza a barra de força
+      strengthMeter.style.width = strength + '%';
+      
+      // Atualiza a cor baseada na força
+      if (strength < 40) {
+        strengthMeter.style.background = 'red';
+        passwordHints.textContent = 'Senha fraca';
+      } else if (strength < 80) {
+        strengthMeter.style.background = 'orange';
+        passwordHints.textContent = 'Senha moderada';
+      } else {
+        strengthMeter.style.background = 'green';
+        passwordHints.textContent = 'Senha forte';
+      }
+    });
+
+    // Registro com e-mail/senha
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = nameInput.value;
+      const email = emailInput.value;
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      // Validações
+      if (password !== confirmPassword) {
+        alert('As senhas não coincidem!');
+        return;
+      }
+
+      if (password.length < 6) {
+        alert('A senha deve ter pelo menos 6 caracteres!');
+        return;
+      }
+
+      if (!document.getElementById('acceptTerms').checked) {
+        alert('Você deve aceitar os termos de serviço!');
+        return;
+      }
+
+      registerBtn.disabled = true;
+      registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Criando conta...';
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Atualizar perfil com o nome
+          return updateProfile(userCredential.user, {
+            displayName: name
+          }).then(() => userCredential);
+        })
+        .then((userCredential) => {
+          const user = userCredential.user;
+          
+          // Salvar dados do usuário
+          localStorage.setItem('user', JSON.stringify({
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL || "https://via.placeholder.com/150"
+          }));
+
+          alert('Conta criada com sucesso!');
+          window.location.href = "Home.html";
+        })
+        .catch((error) => {
+          registerBtn.disabled = false;
+          registerBtn.textContent = 'Registrar-se';
+          
+          let errorMessage = "Erro no registro: ";
+          switch (error.code) {
+            case "auth/email-already-in-use":
+              errorMessage += "Este e-mail já está em uso.";
+              break;
+            case "auth/invalid-email":
+              errorMessage += "E-mail inválido.";
+              break;
+            case "auth/weak-password":
+              errorMessage += "Senha muito fraca.";
+              break;
+            default:
+              errorMessage += error.message;
+          }
+          alert(errorMessage);
+        });
+    });
+
+    // Registro com Google
+    googleRegisterBtn.addEventListener('click', () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          
+          localStorage.setItem('user', JSON.stringify({
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL
+          }));
+
+          alert('Registro com Google realizado com sucesso!');
+          window.location.href = "Home.html";
+        })
+        .catch((error) => {
+          alert("Erro ao registrar com Google: " + error.message);
+        });
+    });
+  </script>
+</body>
+</html>

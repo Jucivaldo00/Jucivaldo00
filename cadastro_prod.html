@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Produtos - Juciloja</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="cadastro_prod.css" />
+</head>
+<body>
+  <div class="container-main">
+    <div class="card-section">
+      <!-- FORMULÁRIO LADO ESQUERDO -->
+      <div class="left-panel">
+        <h2>Cadastro de Produtos</h2>
+        <a href="Home.html" class="btn btn-outline-secondary mb-3">
+  <i class="fas fa-arrow-left"></i> Home
+</a>
+
+        <div id="admin-alert" class="alert alert-danger admin-only" role="alert">
+          Você não tem permissão para acessar esta página.
+        </div>
+
+        <div id="form-container" class="admin-only">
+          <form id="produtoForm">
+            <label for="nome" class="form-label">Nome do Produto</label>
+            <input type="text" class="form-control" id="nome" required />
+
+            <label for="preco" class="form-label">Preço (R$)</label>
+            <input type="number" class="form-control" id="preco" step="0.01" required />
+
+            <label for="descricao" class="form-label">Descrição</label>
+            <textarea class="form-control" id="descricao" rows="2" required></textarea>
+
+            <label for="codigo" class="form-label">Código do Produto</label>
+            <input type="text" class="form-control" id="codigo" required />
+
+            <label for="categoria" class="form-label">Categoria</label>
+            <select class="form-select" id="categoria" required>
+              <option value="">Selecione...</option>
+              <option value="maquiagem">Maquiagem</option>
+              <option value="skincare">Skincare</option>
+              <option value="cabelos">Cabelos</option>
+              <option value="perfumes">Perfumes</option>
+              <option value="corpo">Corpo e Banho</option>
+            </select>
+
+            <label for="imagemUrl" class="form-label">URL da Imagem</label>
+            <input type="url" class="form-control" id="imagemUrl" placeholder="https://exemplo.com/imagem.jpg" />
+            <img id="preview" src="#" alt="Pré-visualização da imagem" class="img-thumbnail mt-2" />
+
+            <button type="submit" class="btn btn-primary mt-3">Cadastrar Produto</button>
+          </form>
+
+          <!-- PESQUISA -->
+          <div class="search-box">
+            <div class="input-group mb-3">
+              <input type="text" id="search-input" class="form-control" placeholder="Pesquisar produto..." />
+              <button class="btn btn-outline-secondary" type="button" id="search-button">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- TABELA -->
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Imagem</th>
+                  <th>Nome</th>
+                  <th>Preço</th>
+                  <th>Categoria</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="produtos-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- IMAGEM LATERAL DIREITA -->
+      <div class="right-panel" style="background-image: url('0.jpg');">
+        <!-- Substitua pela URL real da sua imagem -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIRMAÇÃO -->
+  <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmar Exclusão</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">Tem certeza que deseja excluir este produto?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="confirm-delete">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+  <!-- SEU SCRIPT EXISTENTE AQUI -->
+  <script>  
+    // Configuração do Firebase  
+    const firebaseConfig = {  
+        apiKey: "AIzaSyDeydDlOVXSAIiatAJldHv1OOXQpHAmSUw",  
+        authDomain: "juciloja.firebaseapp.com",  
+        projectId: "juciloja",  
+        storageBucket: "juciloja.appspot.com",  
+        messagingSenderId: "560206416707",  
+        appId: "1:560206416707:web:98c7d4ff8bfc3e297bbdf6",  
+        measurementId: "G-MB1LJDK3G3"  
+    };  
+
+    // Inicializar Firebase  
+    const app = firebase.initializeApp(firebaseConfig);  
+    const db = firebase.firestore();  
+    const auth = firebase.auth();  
+
+    // Variáveis globais  
+    let currentUser = null;  
+    let produtoToDelete = null;  
+
+    // Verificar autenticação e permissões  
+    auth.onAuthStateChanged(async (user) => {  
+        if (user) {  
+            currentUser = user;  
+              
+            // Verificar se é admin  
+            const adminDoc = await db.collection("admins").doc(user.uid).get();  
+            const isAdmin = adminDoc.exists;  
+              
+            if (isAdmin) {  
+                // Mostrar conteúdo para admin  
+                document.querySelectorAll('.admin-only').forEach(el => {  
+                    el.style.display = 'block';  
+                });  
+                document.getElementById('admin-alert').style.display = 'none';  
+                  
+                // Carregar produtos  
+                carregarProdutos();  
+            } else {  
+                // Mostrar alerta para não-admins  
+                document.getElementById('admin-alert').style.display = 'block';  
+                document.getElementById('form-container').style.display = 'none';  
+            }  
+        } else {  
+            // Redirecionar para login se não estiver autenticado  
+            window.location.href = "Login.html";  
+        }  
+    });  
+
+    // Pré-visualização da imagem  
+    document.getElementById('imagemUrl').addEventListener('input', function(e) {  
+        const preview = document.getElementById('preview');  
+        const url = e.target.value;  
+          
+        if (url) {  
+            preview.src = url;  
+            preview.style.display = 'block';  
+        } else {  
+            preview.style.display = 'none';  
+        }  
+    });  
+
+    // Formulário de cadastro  
+    document.getElementById('produtoForm').addEventListener('submit', (e) => {  
+        e.preventDefault();  
+          
+        const produto = {  
+            nome: document.getElementById('nome').value,  
+            descricao: document.getElementById('descricao').value,  
+            preco: parseFloat(document.getElementById('preco').value),  
+            codigo: document.getElementById('codigo').value,  
+            categoria: document.getElementById('categoria').value,  
+            imagemUrl: document.getElementById('imagemUrl').value || "https://via.placeholder.com/300x200?text=Sem+Imagem",  
+            dataCadastro: new Date()  
+        };  
+          
+        // Adicionar produto ao Firestore  
+        db.collection("produtos").add(produto)  
+            .then(() => {  
+                alert("Produto cadastrado com sucesso!");  
+                document.getElementById('produtoForm').reset();  
+                document.getElementById('preview').style.display = 'none';  
+                carregarProdutos();  
+            })  
+            .catch((error) => {  
+                alert("Erro ao cadastrar produto: " + error.message);  
+            });  
+    });  
+
+    // Função para carregar produtos  
+    function carregarProdutos(pesquisa = '') {  
+        let query = db.collection("produtos").orderBy("nome");  
+          
+        if (pesquisa) {  
+            query = query.where("nome", ">=", pesquisa)  
+                       .where("nome", "<=", pesquisa + '\uf8ff');  
+        }  
+          
+        query.get().then((querySnapshot) => {  
+            const tbody = document.getElementById('produtos-table');  
+            tbody.innerHTML = '';  
+              
+            if (querySnapshot.empty) {  
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center">Nenhum produto encontrado</td></tr>';  
+                return;  
+            }  
+              
+            querySnapshot.forEach((doc) => {  
+                const produto = doc.data();  
+                const row = `  
+                    <tr>  
+                        <td><img src="${produto.imagemUrl}" alt="${produto.nome}" style="width: 50px; height: 50px; object-fit: cover;"></td>  
+                        <td>${produto.nome}</td>  
+                        <td>R$ ${produto.preco.toFixed(2)}</td>  
+                        <td>${formatCategoria(produto.categoria)}</td>  
+                        <td>  
+                            <button class="btn btn-danger btn-sm delete-btn" data-id="${doc.id}">  
+                                <i class="fas fa-trash"></i>  
+                            </button>  
+                        </td>  
+                    </tr>  
+                `;  
+                tbody.innerHTML += row;  
+            });  
+              
+            // Adicionar eventos aos botões de exclusão  
+            document.querySelectorAll('.delete-btn').forEach(btn => {  
+                btn.addEventListener('click', (e) => {  
+                    produtoToDelete = e.currentTarget.getAttribute('data-id');  
+                    const modal = new bootstrap.Modal(document.getElementById('confirmModal'));  
+                    modal.show();  
+                });  
+            });  
+        });  
+    }  
+
+    // Formatador de categoria  
+    function formatCategoria(categoria) {  
+        const categorias = {  
+            'maquiagem': 'Maquiagem',  
+            'skincare': 'Skincare',  
+            'cabelos': 'Cabelos',  
+            'perfumes': 'Perfumes',  
+            'corpo': 'Corpo e Banho'  
+        };  
+        return categorias[categoria] || categoria;  
+    }  
+
+    // Pesquisar produtos  
+    document.getElementById('search-button').addEventListener('click', () => {  
+        const pesquisa = document.getElementById('search-input').value.trim();  
+        carregarProdutos(pesquisa);  
+    });  
+
+    // Pesquisar ao pressionar Enter  
+    document.getElementById('search-input').addEventListener('keypress', (e) => {  
+        if (e.key === 'Enter') {  
+            const pesquisa = document.getElementById('search-input').value.trim();  
+            carregarProdutos(pesquisa);  
+        }  
+    });  
+
+    // Confirmar exclusão  
+    document.getElementById('confirm-delete').addEventListener('click', () => {  
+        if (produtoToDelete) {  
+            db.collection("produtos").doc(produtoToDelete).delete()  
+                .then(() => {  
+                    alert("Produto excluído com sucesso!");  
+                    carregarProdutos();  
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));  
+                    modal.hide();  
+                })  
+                .catch((error) => {  
+                    alert("Erro ao excluir produto: " + error.message);  
+                });  
+        }  
+    });  
+</script>
+</body>
+</html>

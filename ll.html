@@ -1,0 +1,174 @@
+/* Estilos base */
+.container-main {
+width: 100%;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px;
+box-sizing: border-box;
+}
+
+.card-section {
+display: flex;
+width: 100%;
+max-width: 1200px;
+background: white;
+border-radius: 10px;
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+overflow: hidden;
+}
+
+.left-panel {
+flex: 1;
+padding: 30px;
+}
+
+.right-panel {
+flex: 1;
+background-size: cover;
+background-position: center;
+}
+
+/* Estilos do formulário */
+#produtoForm {
+display: flex;
+flex-direction: column;
+gap: 15px;
+margin-bottom: 30px;
+}
+
+.form-control, .form-select {
+padding: 10px;
+border-radius: 5px;
+border: 1px solid #ddd;
+}
+
+#preview {
+display: none;
+max-width: 100%;
+height: auto;
+}
+
+/* Estilos da tabela */
+.table-responsive {
+overflow-x: auto;
+}
+
+table {
+width: 100%;
+}
+
+th, td {
+padding: 12px 15px;
+text-align: left;
+}
+
+/* Botões */
+.btn {
+padding: 10px 15px;
+border-radius: 5px;
+cursor: pointer;
+transition: all 0.3s;
+}
+
+.btn-primary {
+background-color: #0d6efd;
+color: white;
+border: none;
+}
+
+.btn-danger {
+background-color: #dc3545;
+color: white;
+border: none;
+}
+
+.btn-outline-secondary {
+background-color: transparent;
+border: 1px solid #6c757d;
+color: #6c757d;
+}
+
+/* Alertas */
+.alert {
+padding: 15px;
+border-radius: 5px;
+margin-bottom: 20px;
+}
+
+.alert-danger {
+background-color: #f8d7da;
+color: #721c24;
+border: 1px solid #f5c6cb;
+}
+
+.admin-only {
+display: none;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+.card-section {
+flex-direction: column;
+}
+
+.right-panel {
+display: none; /* Você pode remover esta linha se quiser manter a imagem em mobile */
+}
+
+.left-panel {
+padding: 20px;
+}
+}
+
+@media (max-width: 768px) {
+.container-main {
+padding: 10px;
+}
+
+#produtoForm {
+gap: 10px;
+}
+
+th, td {
+padding: 8px 10px;
+font-size: 14px;
+}
+
+.btn {
+padding: 8px 12px;
+font-size: 14px;
+}
+}
+
+@media (max-width: 576px) {
+.left-panel {
+padding: 15px;
+}
+
+h2 {
+font-size: 1.5rem;
+}
+
+.table-responsive {
+font-size: 0.9rem;
+}
+
+td img {
+width: 40px !important;
+height: 40px !important;
+}
+
+.input-group {
+flex-direction: column;
+}
+
+#search-input {
+margin-bottom: 10px;
+}
+
+#search-button {
+width: 100%;
+}
+}

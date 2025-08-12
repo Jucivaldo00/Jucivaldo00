@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Clientes - Juciloja</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="cadastro_prod.css">
+</head>
+<body>
+  <div class="container-main">
+    <div class="card-section">
+      <div class="left-panel">
+
+        <h2 class="text-center">Cadastro de Clientes</h2>
+        <a href="Home.html" class="btn btn-outline-secondary mb-3">
+  <i class="fas fa-arrow-left"></i> Home
+</a>
+
+        <!-- Alerta de acesso -->
+        <div id="admin-alert" class="alert alert-danger admin-only" role="alert" style="display: none;">
+          Você não tem permissão para acessar esta página.
+        </div>
+
+        <!-- Formulário de Cadastro -->
+        <div id="form-container" class="admin-only" style="display: none;">
+          <form id="formCliente">
+            <label for="nome" class="form-label">Nome Completo</label>
+            <input type="text" class="form-control" id="nome" required>
+
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="email" required>
+
+            <label for="telefone" class="form-label">Telefone</label>
+            <input type="tel" class="form-control" id="telefone" required>
+
+            <label for="cpf" class="form-label">CPF</label>
+            <input type="text" class="form-control" id="cpf" required>
+
+            <label for="endereco" class="form-label">Endereço</label>
+            <input type="text" class="form-control" id="endereco" required>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3">Cadastrar Cliente</button>
+          </form>
+
+          <!-- Pesquisa -->
+          <div class="search-box">
+            <div class="input-group mb-3">
+              <input type="text" id="search-input" class="form-control" placeholder="Pesquisar cliente...">
+              <button class="btn btn-outline-secondary" type="button" id="search-button">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tabela de Clientes -->
+          <div class="table-responsive mt-4">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>E-mail</th>
+                  <th>Telefone</th>
+                  <th>CPF</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="clientes-table">
+                <!-- Clientes serão carregados aqui -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-panel" style="background-image: url('01.jpg');">
+        <!-- Você pode trocar essa imagem por algo que combine com seu sistema -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação -->
+  <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmar Exclusão</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          Tem certeza que deseja excluir este cliente?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="confirm-delete">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts Firebase -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+  <!-- Seu script de lógica JavaScript continua igual -->
+  <!-- ... (código do <script> igual ao que você enviou acima) -->
+  <!-- Firebase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+  <script>
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDeydDlOVXSAIiatAJldHv1OOXQpHAmSUw",
+      authDomain: "juciloja.firebaseapp.com",
+      projectId: "juciloja",
+      storageBucket: "juciloja.appspot.com",
+      messagingSenderId: "560206416707",
+      appId: "1:560206416707:web:98c7d4ff8bfc3e297bbdf6",
+      measurementId: "G-MB1LJDK3G3"
+    };
+
+    // Inicializar Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    // Variáveis globais
+    let currentUser = null;
+    let clienteToDelete = null;
+
+    // Verificar autenticação e permissões
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        currentUser = user;
+        
+        // Verificar se é admin
+        const adminDoc = await db.collection("admins").doc(user.uid).get();
+        const isAdmin = adminDoc.exists;
+        
+        if (isAdmin) {
+          // Mostrar conteúdo para admin
+          document.querySelectorAll('.admin-only').forEach(el => {
+            el.style.display = 'block';
+          });
+          document.getElementById('admin-alert').style.display = 'none';
+          
+          // Carregar clientes
+          carregarClientes();
+        } else {
+          // Mostrar alerta para não-admins
+          document.getElementById('admin-alert').style.display = 'block';
+          document.getElementById('form-container').style.display = 'none';
+        }
+      } else {
+        // Redirecionar para login se não estiver autenticado
+        window.location.href = "Login.html";
+      }
+    });
+
+    // Formulário de cadastro
+    document.getElementById('formCliente').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const cliente = {
+        nome: document.getElementById('nome').value,
+        email: document.getElementById('email').value,
+        telefone: document.getElementById('telefone').value,
+        cpf: document.getElementById('cpf').value,
+        endereco: document.getElementById('endereco').value,
+        dataCadastro: new Date()
+      };
+      
+      // Adicionar cliente ao Firestore
+      db.collection("clientes").add(cliente)
+        .then(() => {
+          alert("Cliente cadastrado com sucesso!");
+          document.getElementById('formCliente').reset();
+          carregarClientes();
+        })
+        .catch((error) => {
+          alert("Erro ao cadastrar cliente: " + error.message);
+        });
+    });
+
+    // Função para carregar clientes
+    function carregarClientes(pesquisa = '') {
+      let query = db.collection("clientes").orderBy("nome");
+      
+      if (pesquisa) {
+        query = query.where("nome", ">=", pesquisa)
+                   .where("nome", "<=", pesquisa + '\uf8ff');
+      }
+      
+      query.get().then((querySnapshot) => {
+        const tbody = document.getElementById('clientes-table');
+        tbody.innerHTML = '';
+        
+        if (querySnapshot.empty) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center">Nenhum cliente encontrado</td></tr>';
+          return;
+        }
+        
+        querySnapshot.forEach((doc) => {
+          const cliente = doc.data();
+          const row = `
+            <tr>
+              <td>${cliente.nome}</td>
+              <td>${cliente.email}</td>
+              <td>${cliente.telefone}</td>
+              <td>${cliente.cpf}</td>
+              <td>
+                <button class="btn btn-danger btn-sm delete-btn" data-id="${doc.id}">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+          tbody.innerHTML += row;
+        });
+        
+        // Adicionar eventos aos botões de exclusão
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            clienteToDelete = e.currentTarget.getAttribute('data-id');
+            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+            modal.show();
+          });
+        });
+      });
+    }
+
+    // Pesquisar clientes
+    document.getElementById('search-button').addEventListener('click', () => {
+      const pesquisa = document.getElementById('search-input').value.trim();
+      carregarClientes(pesquisa);
+    });
+
+    // Pesquisar ao pressionar Enter
+    document.getElementById('search-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const pesquisa = document.getElementById('search-input').value.trim();
+        carregarClientes(pesquisa);
+      }
+    });
+
+    // Confirmar exclusão
+    document.getElementById('confirm-delete').addEventListener('click', () => {
+      if (clienteToDelete) {
+        db.collection("clientes").doc(clienteToDelete).delete()
+          .then(() => {
+            alert("Cliente excluído com sucesso!");
+            carregarClientes();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+            modal.hide();
+          })
+          .catch((error) => {
+            alert("Erro ao excluir cliente: " + error.message);
+          });
+      }
+    });
+  </script>
+</body>
+</html>

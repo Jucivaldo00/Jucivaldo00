@@ -1,0 +1,289 @@
+/* Estilo geral */
+body {
+  background-color: #e8f5d6;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+.container-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.card-section {
+  display: flex;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.left-panel {
+  flex: 1;
+  padding: 40px;
+  min-width: 0; /* Permite que o flex item encolha */
+}
+
+.right-panel {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  min-height: 500px;
+}
+
+/* Formulários */
+#produtoForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-label {
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+  border: none;
+  padding: 12px 15px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Botões */
+.btn {
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  display: inline-block;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+}
+
+.btn-outline-secondary {
+  background-color: transparent;
+  border: 2px solid #fff;
+  color: white;
+}
+
+.btn-outline-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+
+/* Título */
+h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: white;
+}
+
+/* Preview da imagem */
+#preview {
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
+  display: none;
+  border-radius: 10px;
+  margin-top: 10px;
+  border: 2px solid white;
+}
+
+/* Tabela */
+.table {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.table th {
+  background-color: #3498db;
+  color: white;
+}
+
+.table td, .table th {
+  padding: 12px 15px;
+  vertical-align: middle;
+}
+
+.table img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+/* Alerta */
+#admin-alert {
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+/* Pesquisa */
+.search-box {
+  margin: 30px 0;
+}
+
+.input-group {
+  display: flex;
+  width: 100%;
+}
+
+#search-input {
+  flex: 1;
+  border-radius: 10px 0 0 10px !important;
+  padding: 10px 15px;
+}
+
+#search-button {
+  border-radius: 0 10px 10px 0;
+  background-color: #3498db;
+  color: white;
+  border: none;
+}
+
+/* Modal */
+.modal-content {
+  border-radius: 15px;
+  border: none;
+}
+
+.modal-header {
+  background-color: #3498db;
+  color: white;
+  border-radius: 15px 15px 0 0;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .left-panel {
+    padding: 30px;
+  }
+  
+  .right-panel {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-section {
+    flex-direction: column;
+  }
+  
+  .right-panel {
+    min-height: 300px;
+    order: -1; /* Coloca a imagem no topo */
+  }
+  
+  .left-panel {
+    padding: 25px;
+  }
+  
+  h2 {
+    font-size: 1.7rem;
+  }
+  
+  .table td, .table th {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container-main {
+    padding: 15px;
+  }
+  
+  .left-panel {
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .form-control, 
+  .form-select,
+  .btn {
+    padding: 10px 15px;
+  }
+  
+  .table {
+    font-size: 0.9rem;
+  }
+  
+  .table img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .input-group {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#search-input {
+  flex: 1 1 70%;
+  border-radius: 10px;
+  min-width: 200px;
+}
+
+#search-button {
+  flex: 1 1 28%;
+  border-radius: 10px;
+  min-width: 80px;
+}
+}
+
+@media (max-width: 400px) {
+  .left-panel {
+    padding: 15px;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  .table td, .table th {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+  
+  .table img {
+    width: 30px;
+    height: 30px;
+  }
+}

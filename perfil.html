@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil - Nemesis</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a1a2e;
+      --secondary-color: #16213e;
+      --accent-color: #330000;
+      --highlight-color: #b22222; /* Firebrick */
+      --text-color: #f1f1f1;
+      --text-secondary: #b8b8b8;
+      --card-bg: #1f1f2e;
+      --success-color: #4CAF50;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, black, #330000);;
+      color: var(--text-color);
+      min-height: 100vh;
+    }
+
+    .profile-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    .profile-avatar-container {
+      position: relative;
+      margin-right: 2rem;
+    }
+
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--highlight-color);
+      box-shadow: 0 8px 24px rgba(233, 69, 96, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .profile-avatar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 28px rgba(233, 69, 96, 0.4);
+    }
+
+    .avatar-edit {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: var(--highlight-color);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .avatar-edit:hover {
+      transform: scale(1.1);
+    }
+
+    .avatar-edit i {
+      font-size: 1.2rem;
+    }
+
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-email {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background-color: var(--highlight-color);
+      color: white;
+      box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
+    }
+
+    .btn-primary:hover {
+      background-color: #d13354;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(233, 69, 96, 0.4);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--text-secondary);
+    }
+
+    .btn-secondary:hover {
+      color: var(--text-color);
+      border-color: var(--text-color);
+      transform: translateY(-2px);
+    }
+
+    .admin-badge {
+      background-color: var(--highlight-color);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      margin-left: 1rem;
+      font-weight: 600;
+    }
+
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--highlight-color);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .profile-section {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--highlight-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title i {
+      font-size: 1.2rem;
+    }
+
+    .edit-form {
+      max-width: 600px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 1rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--highlight-color);
+      box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
+    }
+
+    .success-message {
+      color: var(--success-color);
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .profile-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .profile-avatar-container {
+        margin-right: 0;
+        margin-bottom: 1.5rem;
+      }
+
+      .profile-actions {
+        justify-content: center;
+      }
+
+      .profile-name {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .profile-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-avatar-container">
+        <img id="profile-pic" class="profile-avatar" src="https://via.placeholder.com/150" alt="Foto do usuário">
+        <div class="avatar-edit" onclick="document.getElementById('photo-upload').click()">
+          <i class="fas fa-camera"></i>
+        </div>
+        <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+      </div>
+      <div class="profile-info">
+        <h1 class="profile-name" id="user-name">Jucivaldo <span id="admin-badge" class="admin-badge" style="display: none;">Admin</span></h1>
+        <p class="profile-email" id="user-email">jucivaldo.g@acad.fima.edu.br</p>
+        <div class="profile-actions">
+          <button class="btn btn-primary" id="admin-btn" style="display: none;">
+            <i class="fas fa-home"></i> Painel Admin
+          </button>
+          <button class="btn btn-secondary" id="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Sair
+          </button>
+          <a class="btn btn-secondary" href="Home.html">
+  <i class="fas fa-home"></i> Home
+</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="profile-stats">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
+        <div class="stat-number">0</div>
+        <div class="stat-label">Compras Realizadas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-heart"></i></div>
+        <div class="stat-number">0</div>
+        <div class="stat-label">Favoritos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-bookmark"></i></div>
+        <div class="stat-number">0</div>
+        <div class="stat-label">Itens Salvos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-star"></i></div>
+        <div class="stat-number">0</div>
+        <div class="stat-label">Avaliações</div>
+      </div>
+    </div>
+    
+    <div class="profile-section">
+      <h2 class="section-title"><i class="fas fa-user-edit"></i> Editar Perfil</h2>
+      <div class="edit-form">
+        <div class="form-group">
+          <label for="new-name" class="form-label">Alterar Nome</label>
+          <input type="text" id="new-name" class="form-control" placeholder="Digite seu novo nome">
+        </div>
+        <button id="update-name-btn" class="btn btn-primary">
+          <i class="fas fa-save"></i> Atualizar Nome
+        </button>
+        <div id="success-message" class="success-message">
+          <i class="fas fa-check-circle"></i> Nome atualizado com sucesso!
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h2 class="section-title"><i class="fas fa-lock"></i> Segurança</h2>
+      <div class="edit-form">
+        <div class="form-group">
+          <label for="current-password" class="form-label">Senha Atual</label>
+          <input type="password" id="current-password" class="form-control" placeholder="Digite sua senha atual">
+        </div>
+        <div class="form-group">
+          <label for="new-password" class="form-label">Nova Senha</label>
+          <input type="password" id="new-password" class="form-control" placeholder="Digite sua nova senha">
+        </div>
+        <div class="form-group">
+          <label for="confirm-password" class="form-label">Confirmar Nova Senha</label>
+          <input type="password" id="confirm-password" class="form-control" placeholder="Confirme sua nova senha">
+        </div>
+        <button class="btn btn-primary">
+          <i class="fas fa-key"></i> Alterar Senha
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged, 
+      updateProfile, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      getDoc 
+    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDeydDlOVXSAIiatAJldHv1OOXQpHAmSUw",
+      authDomain: "juciloja.firebaseapp.com",
+      projectId: "juciloja",
+      storageBucket: "juciloja.appspot.com",
+      messagingSenderId: "560206416707",
+      appId: "1:560206416707:web:98c7d4ff8bfc3e297bbdf6",
+      measurementId: "G-MB1LJDK3G3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Elementos do DOM
+    const profilePic = document.getElementById('profile-pic');
+    const userName = document.getElementById('user-name');
+    const userEmail = document.getElementById('user-email');
+    const photoUpload = document.getElementById('photo-upload');
+    const logoutBtn = document.getElementById('logout-btn');
+    const newNameInput = document.getElementById('new-name');
+    const updateNameBtn = document.getElementById('update-name-btn');
+    const adminBtn = document.getElementById('admin-btn');
+    const adminBadge = document.getElementById('admin-badge');
+    const successMessage = document.getElementById('success-message');
+
+    let currentUser;
+
+    // Carregar foto salva localmente se existir
+    const savedPhoto = localStorage.getItem('profilePhoto');
+    if (savedPhoto) {
+      profilePic.src = savedPhoto;
+    }
+
+    // Monitorar estado de autenticação
+    onAuthStateChanged(auth, async user => {
+      if (user) {
+        currentUser = user;
+        
+        // Verificar se é admin
+        const adminDoc = await getDoc(doc(db, "admins", user.uid));
+        const isAdmin = adminDoc.exists();
+        
+        // Atualizar interface
+        userName.innerHTML = `${user.displayName || "Usuário"}${isAdmin ? '<span class="admin-badge">Admin</span>' : ''}`;
+        userEmail.textContent = user.email;
+        
+        // Mostrar botão de admin se for admin
+        if (isAdmin) {
+          adminBtn.style.display = 'flex';
+          adminBadge.style.display = 'inline-block';
+          adminBtn.addEventListener('click', () => {
+            window.location.href = 'Home.html';
+          });
+        }
+
+        // Preencher campo de nome se existir
+        if (user.displayName) {
+          newNameInput.placeholder = user.displayName;
+        }
+
+        // Salvar dados do usuário
+        const userData = {
+          name: user.displayName || "Usuário",
+          email: user.email,
+          photo: savedPhoto || "",
+          isAdmin: isAdmin
+        };
+        localStorage.setItem("user", JSON.stringify(userData));
+
+      } else {
+        window.location.href = "login.html";
+      }
+    });
+
+    // Atualizar foto de perfil
+    photoUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const base64Image = event.target.result;
+        profilePic.src = base64Image;
+        localStorage.setItem('profilePhoto', base64Image);
+
+        // Atualizar dados no localStorage
+        if (currentUser) {
+          const userData = {
+            name: currentUser.displayName || "Usuário",
+            email: currentUser.email,
+            photo: base64Image,
+            isAdmin: JSON.parse(localStorage.getItem("user") || {}).isAdmin || false
+          };
+          localStorage.setItem('user', JSON.stringify(userData));
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Atualizar nome do usuário
+    updateNameBtn.addEventListener('click', async () => {
+      const newName = newNameInput.value.trim();
+      if (!newName || !currentUser) return;
+
+      try {
+        await updateProfile(currentUser, { displayName: newName });
+        
+        // Atualizar exibição
+        const isAdmin = JSON.parse(localStorage.getItem("user") || {}).isAdmin || false;
+        userName.innerHTML = `${newName}${isAdmin ? '<span class="admin-badge">Admin</span>' : ''}`;
+        newNameInput.value = '';
+        
+        // Atualizar localStorage
+        const currentPhoto = localStorage.getItem('profilePhoto') || "";
+        const userData = {
+          name: newName,
+          email: currentUser.email,
+          photo: currentPhoto,
+          isAdmin: isAdmin
+        };
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        // Mostrar mensagem de sucesso
+        successMessage.style.display = 'block';
+        setTimeout(() => {
+          successMessage.style.display = 'none';
+        }, 3000);
+      } catch (error) {
+        alert("Erro ao atualizar nome: " + error.message);
+      }
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('profilePhoto');
+        window.location.href = "login.html";
+      }).catch((error) => {
+        alert("Erro ao fazer logout: " + error.message);
+      });
+    });
+  </script>
+</body>
+</html>

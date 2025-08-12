@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra - Nemesis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="Home.css" rel="stylesheet">
+    <!-- Biblioteca para gerar QR Code -->
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+</head>
+<body>
+    <header>
+        <!-- Mesmo header das outras páginas -->
+    </header>
+
+    <main class="checkout-container">
+        <div class="checkout-steps">
+            <div class="step active">
+                <span>1</span>
+                <p>Carrinho</p>
+            </div>
+            <div class="step active">
+                <span>2</span>
+                <p>Pagamento</p>
+            </div>
+            <div class="step">
+                <span>3</span>
+                <p>Confirmação</p>
+            </div>
+        </div>
+
+        <div class="checkout-content">
+            <div class="payment-methods">
+                <h2>Escolha a forma de pagamento</h2>
+                <div class="payment-options">
+                    <button class="payment-option active" data-method="pix">
+                        <i class="fas fa-qrcode"></i>
+                        <span>PIX</span>
+                    </button>
+                    <button class="payment-option" data-method="credit">
+                        <i class="far fa-credit-card"></i>
+                        <span>Cartão de Crédito</span>
+                    </button>
+                    <button class="payment-option" data-method="boleto">
+                        <i class="fas fa-barcode"></i>
+                        <span>Boleto</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="payment-details" id="payment-details">
+                <div class="pix-payment">
+                    <h3>Pagamento via PIX</h3>
+                    <p>Escaneie o QR Code abaixo ou copie o código para pagar via PIX</p>
+                    
+                    <div id="qrcode"></div>
+                    
+                    <div class="pix-code">
+                        <p>Código PIX (copie e cole no seu app bancário):</p>
+                        <div class="code-container">
+                            <input type="text" id="pix-code" value="00020126360014BR.GOV.BCB.PIX0114+55319999999995204000053039865404123.505802BR5925NEMESIS%20ELETRONICOS6009SAO%20PAULO62140510NEMESIS1236304" readonly>
+                            <button id="copy-pix"><i class="far fa-copy"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <h4>Resumo do Pedido</h4>
+                        <div class="summary-row">
+                            <span>Total:</span>
+                            <span id="order-total">R$ 0,00</span>
+                        </div>
+                    </div>
+                    
+                    <button id="confirm-payment" class="btn-primary">Confirmar Pagamento</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Mesmo footer das outras páginas -->
+    </footer>
+
+    <script type="module">
+        // Importações do Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeydDlOVXSAIiatAJldHv1OOXQpHAmSUw",
+            authDomain: "juciloja.firebaseapp.com",
+            projectId: "juciloja",
+            storageBucket: "juciloja.appspot.com",
+            messagingSenderId: "560206416707",
+            appId: "1:560206416707:web:98c7d4ff8bfc3e297bbdf6",
+            measurementId: "G-MB1LJDK3G3"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Elementos do DOM
+        const qrcodeElement = document.getElementById('qrcode');
+        const pixCodeElement = document.getElementById('pix-code');
+        const orderTotalElement = document.getElementById('order-total');
+        const copyPixButton = document.getElementById('copy-pix');
+        const confirmPaymentButton = document.getElementById('confirm-payment');
+
+        // Gerar QR Code PIX
+        function generatePixQRCode(total) {
+            // Limpar QR Code anterior
+            qrcodeElement.innerHTML = '';
+            
+            // Gerar payload PIX (simplificado - em produção use uma lib específica)
+            const pixPayload = `00020126360014BR.GOV.BCB.PIX0114+55319999999995204000053039865404${total.toFixed(2)}5802BR5925NEMESIS%20ELETRONICOS6009SAO%20PAULO62140510NEMESIS1236304`;
+            
+            // Atualizar código PIX
+            pixCodeElement.value = pixPayload;
+            
+            // Gerar QR Code
+            new QRCode(qrcodeElement, {
+                text: pixPayload,
+                width: 200,
+                height: 200,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        // Copiar código PIX
+        copyPixButton.addEventListener('click', () => {
+            pixCodeElement.select();
+            document.execCommand('copy');
+            
+            // Feedback visual
+            const originalText = copyPixButton.innerHTML;
+            copyPixButton.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+            
+            setTimeout(() => {
+                copyPixButton.innerHTML = originalText;
+            }, 2000);
+        });
+
+        // Confirmar pagamento
+        confirmPaymentButton.addEventListener('click', () => {
+            // Esvaziar carrinho
+            localStorage.removeItem('nemesis-cart');
+            
+            // Redirecionar para página de confirmação
+            window.location.href = 'order-confirmation.html';
+        });
+
+        // Quando a página carrega
+        document.addEventListener('DOMContentLoaded', () => {
+            // Obter total do carrinho da URL ou localStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            let total = parseFloat(urlParams.get('total')) || 0;
+            
+            if (total === 0) {
+                const cart = JSON.parse(localStorage.getItem('nemesis-cart')) || [];
+                // Calcular total (simplificado - em produção calcule corretamente)
+                total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            }
+            
+            // Atualizar total na página
+            orderTotalElement.textContent = `R$ ${total.toFixed(2)}`;
+            
+            // Gerar QR Code
+            generatePixQRCode(total);
+            
+            // Atualizar contador do carrinho (irá sumir pois esvaziamos)
+            if (window.updateCartCounter) {
+                updateCartCounter();
+            }
+        });
+    </script>
+</body>
+</html>

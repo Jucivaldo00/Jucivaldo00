@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - Nemesis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="Home.css" rel="stylesheet">
+    <link href="res-car.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>NΞMΞSIS</h1>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="Pesquisa.html" class="nav-link"><i class="fas fa-search"></i> <span class="nav-label">Pesquisar</span></a></li>
+                    <li class="nav-item"><a href="Home.html" class="nav-link"><i class="fas fa-home"></i> <span class="nav-label">Home</span></a></li>
+            
+                    <li class="nav-item admin-only"><a href="cliente.html" class="nav-link"><i class="fas fa-user-plus"></i> <span class="nav-label">Cad. Cliente</span></a></li>
+                    <li class="nav-item admin-only"><a href="cadastra-produto.html" class="nav-link"><i class="fas fa-box-open"></i> <span class="nav-label">Cad. Produto</span></a></li>
+                </ul>
+                <div id="user-info"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="cart-container">
+        <h1 class="cart-title">Seu Carrinho</h1>
+        
+        <div class="cart-content">
+            <div class="cart-items" id="cart-items">
+                <!-- Itens do carrinho serão carregados aqui -->
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Seu carrinho está vazio</p>
+                    <a href="Home.html" class="btn-continue-shopping">Continuar comprando</a>
+                </div>
+            </div>
+            
+            <div class="cart-summary">
+                <h3>Resumo do Pedido</h3>
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">R$ 0,00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Frete</span>
+                        <span id="shipping">R$ 0,00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="total">R$ 0,00</span>
+                    </div>
+                    <button id="checkout-btn" class="btn-checkout" disabled>Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Mesmo footer da Home.html -->
+    </footer>
+
+    <script type="module">
+    // Importações do Firebase (igual à Home.html)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    // Configuração do Firebase (igual à Home.html)
+    const firebaseConfig = {
+        apiKey: "AIzaSyDeydDlOVXSAIiatAJldHv1OOXQpHAmSUw",
+        authDomain: "juciloja.firebaseapp.com",
+        projectId: "juciloja",
+        storageBucket: "juciloja.appspot.com",
+        messagingSenderId: "560206416707",
+        appId: "1:560206416707:web:98c7d4ff8bfc3e297bbdf6",
+        measurementId: "G-MB1LJDK3G3"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // Elementos do DOM
+    const cartItemsContainer = document.getElementById('cart-items');
+    const subtotalElement = document.getElementById('subtotal');
+    const shippingElement = document.getElementById('shipping');
+    const totalElement = document.getElementById('total');
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    // Carregar carrinho do localStorage
+    function loadCart() {
+        const cart = JSON.parse(localStorage.getItem('nemesis-cart')) || [];
+        
+        if (cart.length === 0) {
+            showEmptyCart();
+            updateSummary(0);
+            return;
+        }
+        
+        renderCartItems(cart);
+    }
+
+    // Mostrar carrinho vazio
+    function showEmptyCart() {
+        cartItemsContainer.innerHTML = `
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Seu carrinho está vazio</p>
+                <a href="Home.html" class="btn-continue-shopping">Continuar comprando</a>
+            </div>
+        `;
+    }
+
+    // Renderizar itens do carrinho
+    async function renderCartItems(cart) {
+        let html = '';
+        let subtotal = 0;
+        
+        for (const item of cart) {
+            // Buscar detalhes do produto no Firestore
+            const productRef = doc(db, "produtos", item.id);
+            const productSnap = await getDoc(productRef);
+            
+            if (productSnap.exists()) {
+                const product = productSnap.data();
+                const itemTotal = product.preco * item.quantity;
+                subtotal += itemTotal;
+                
+                html += `
+                    <div class="cart-item" data-id="${item.id}">
+                        <img src="${product.imagemUrl || '5.jpg'}" alt="${product.nome}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <h4 class="cart-item-name">${product.nome}</h4>
+                            <p class="cart-item-price">R$ ${product.preco.toFixed(2)}</p>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                                <span class="quantity">${item.quantity}</span>
+                                <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                                <button class="remove-btn" data-id="${item.id}">Remover</button>
+                            </div>
+                        </div>
+                        <div class="cart-item-total">
+                            R$ ${itemTotal.toFixed(2)}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        cartItemsContainer.innerHTML = html;
+        updateSummary(subtotal);
+        
+        // Adicionar eventos aos botões
+        document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
+            btn.addEventListener('click', decreaseQuantity);
+        });
+        
+        document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
+            btn.addEventListener('click', increaseQuantity);
+        });
+        
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', removeItem);
+        });
+    }
+
+    // Atualizar resumo do pedido
+    function updateSummary(subtotal) {
+        const shipping = subtotal > 300 ? 0 : 15;
+        const total = subtotal + shipping;
+        
+        subtotalElement.textContent = `R$ ${subtotal.toFixed(2)}`;
+        shippingElement.textContent = shipping === 0 ? 'Grátis' : `R$ ${shipping.toFixed(2)}`;
+        totalElement.textContent = `R$ ${total.toFixed(2)}`;
+        
+        checkoutBtn.disabled = subtotal === 0;
+    }
+
+    // Funções para manipular o carrinho
+    function decreaseQuantity(e) {
+        const productId = e.target.getAttribute('data-id');
+        updateCartItemQuantity(productId, -1);
+    }
+
+    function increaseQuantity(e) {
+        const productId = e.target.getAttribute('data-id');
+        updateCartItemQuantity(productId, 1);
+    }
+
+    function removeItem(e) {
+        const productId = e.target.getAttribute('data-id');
+        const cart = JSON.parse(localStorage.getItem('nemesis-cart')) || [];
+        const newCart = cart.filter(item => item.id !== productId);
+        
+        localStorage.setItem('nemesis-cart', JSON.stringify(newCart));
+        loadCart();
+    }
+
+    function updateCartItemQuantity(productId, change) {
+        const cart = JSON.parse(localStorage.getItem('nemesis-cart')) || [];
+        const itemIndex = cart.findIndex(item => item.id === productId);
+        
+        if (itemIndex !== -1) {
+            cart[itemIndex].quantity += change;
+            
+            // Remover item se quantidade for zero ou menos
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+        } else if (change > 0) {
+            // Adicionar novo item
+            cart.push({ id: productId, quantity: 1 });
+        }
+        
+        localStorage.setItem('nemesis-cart', JSON.stringify(cart));
+        loadCart();
+    }
+
+    // Evento para finalizar compra - CORRIGIDO
+    checkoutBtn.addEventListener('click', async () => {
+        const user = auth.currentUser;
+        
+        if (!user) {
+            alert('Por favor, faça login para finalizar a compra.');
+            window.location.href = 'Login.html?redirect=Carrinho.html';
+            return;
+        }
+        
+        // Calcular total corretamente
+        const cart = JSON.parse(localStorage.getItem('nemesis-cart')) || [];
+        let subtotal = 0;
+        
+        // Buscar preços reais no Firestore
+        for (const item of cart) {
+            const productRef = doc(db, "produtos", item.id);
+            const productSnap = await getDoc(productRef);
+            
+            if (productSnap.exists()) {
+                const product = productSnap.data();
+                subtotal += product.preco * item.quantity;
+            }
+        }
+        
+        const shipping = subtotal > 300 ? 0 : 15;
+        const total = subtotal + shipping;
+        
+        // Salvar o total no localStorage para usar na confirmação
+        localStorage.setItem('last-order-total', `R$ ${total.toFixed(2)}`);
+        
+        // Redirecionar para checkout com o total
+        window.location.href = `Checkout.html?total=${total}`;
+    });
+
+    // Carregar carrinho quando a página for carregada
+    document.addEventListener('DOMContentLoaded', () => {
+        loadCart();
+        
+        // Atualizar informações do usuário
+        onAuthStateChanged(auth, (user) => {
+            const userInfo = document.getElementById('user-info');
+            const adminItems = document.querySelectorAll('.admin-only');
+            
+            if (user) {
+                userInfo.innerHTML = `
+                    <div class="user-profile">
+                        <a href="#" id="profile-link" class="nav-link">
+                            <img src="${user.photoURL || '5.jpg'}" 
+                                 alt="${user.displayName || 'Usuário'}" class="user-avatar">
+                            <span class="nav-label">${user.displayName || 'Usuário'}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item"><a href="#" class="nav-link dropdown-title" id="logout-link">Sair</a></li>
+                        </ul>
+                    </div>
+                `;
+
+                document.getElementById("profile-link")?.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    window.location.href = "perfil.html";
+                });
+
+                document.getElementById("logout-link")?.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    signOut(auth).then(() => {
+                        window.location.reload();
+                    });
+                });
+            } else {
+                userInfo.innerHTML = `
+                    <a href="Login.html" class="nav-link">
+                        <span class="material-symbols-rounded">login</span>
+                        <span class="nav-label">Entrar</span>
+                    </a>
+                `;
+            }
+        });
+    });
+    // Controle do Menu Hamburguer - Adicione no DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.createElement('button');
+    menuToggle.className = 'menu-toggle';
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    menuToggle.setAttribute('aria-label', 'Menu');
+    
+    // Insere o botão no header
+    const headerContainer = document.querySelector('.header-container');
+    headerContainer.insertBefore(menuToggle, document.querySelector('nav'));
+    
+    // Controle do menu
+    menuToggle.addEventListener('click', () => {
+        const nav = document.querySelector('nav');
+        const icon = menuToggle.querySelector('i');
+        
+        nav.classList.toggle('nav-active');
+        
+        // Alterna entre ícone de menu e X
+        if (nav.classList.contains('nav-active')) {
+            icon.classList.replace('fa-bars', 'fa-times');
+        } else {
+            icon.classList.replace('fa-times', 'fa-bars');
+        }
+    });
+    
+    // Fechar menu ao clicar em um link (mobile)
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 992) {
+                const nav = document.querySelector('nav');
+                const icon = document.querySelector('.menu-toggle i');
+                nav.classList.remove('nav-active');
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

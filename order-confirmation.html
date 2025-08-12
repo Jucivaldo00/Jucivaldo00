@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra Confirmada - Nemesis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="Home.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <!-- Mesmo header das outras páginas -->
+    </header>
+
+    <main class="confirmation-container">
+        <div class="confirmation-card">
+            <div class="confirmation-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h1>Compra Confirmada!</h1>
+            <h2>Seu pagamento foi processado com sucesso.</h2>
+            <h2>Enviamos os detalhes do seu pedido para o email cadastrado.</h2>
+            
+            <div class="order-info">
+                <p><strong>Número do pedido:</strong> #NMS-${Math.floor(Math.random() * 10000)}</p>
+                <p><strong>Data:</strong> ${new Date().toLocaleDateString('pt-BR')}</p>
+                <p><strong>Total:</strong> ${localStorage.getItem('last-order-total') || 'R$ 0,00'}</p>
+            </div>
+            
+            <a href="Home.html" class="btn-continue-shopping">Voltar às compras</a>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Mesmo footer das outras páginas -->
+    </footer>
+
+    <script>
+        // Quando a página carrega
+        document.addEventListener('DOMContentLoaded', () => {
+            // Atualizar contador do carrinho (deve estar vazio)
+            if (window.updateCartCounter) {
+                updateCartCounter();
+            }
+        });
+    </script>
+</body>
+</html>

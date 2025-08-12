@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nemesis - Eletrônicos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="Home.css" rel="stylesheet">
+    <link href="Responsive.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>NΞMΞSIS</h1>
+            </div>
+               <!-- Botão do menu hamburguer -->
+        <button class="menu-toggle" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+            <nav>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="Pesquisa.html" class="nav-link"><i class="fas fa-search"></i> <span class="nav-label">Pesquisar</span></a></li>
+                    <li class="nav-item"><a href="Carrinho.html" class="nav-link"><i class="fas fa-shopping-cart"></i> <span class="nav-label">Carrinho</span></a></li>
+                    <li class="nav-item admin-only"><a href="cliente.html" class="nav-link"><i class="fas fa-user-plus"></i> <span class="nav-label">Cad. Cliente</span></a></li>
+                    <li class="nav-item admin-only"><a href="cadastra-produto.html" class="nav-link"><i class="fas fa-box-open"></i> <span class="nav-label">Cad. Produto</span></a></li>
+                </ul>
+                <div id="user-info"></div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Tecnologia de Ponta ao Seu Alcance</h2>
+            <p>Os melhores produtos eletrônicos com os preços mais competitivos do mercado</p>
+            <div class="search-bar">
+                <input type="text" id="search-input" class="search-input" placeholder="Buscar produtos...">
+                <button id="search-button" class="search-button"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="categories">
+        <h2 class="section-title">Categorias</h2>
+        <div class="categories-container">
+            <div class="category-card" data-category="celulares">
+                <i class="fas fa-mobile-alt category-icon"></i>
+                <h3 class="category-name">Celulares</h3>
+            </div>
+            <div class="category-card" data-category="notebooks">
+                <i class="fas fa-laptop category-icon"></i>
+                <h3 class="category-name">Notebooks</h3>
+            </div>
+            <div class="category-card" data-category="tablets">
+                <i class="fas fa-tablet-alt category-icon"></i>
+                <h3 class="category-name">Tablets</h3>
+            </div>
+            <div class="category-card" data-category="acessorios">
+                <i class="fas fa-headphones category-icon"></i>
+                <h3 class="category-name">Acessórios</h3>
+            </div>
+            <div class="category-card" data-category="gaming">
+                <i class="fas fa-gamepad category-icon"></i>
+                <h3 class="category-name">Gaming</h3>
+            </div>
+        </div>
+    </section>
+
+    <section class="promo-banner">
+        <div class="promo-content">
+            <h3 class="promo-title">Black Friday Nemesis</h3>
+            <p class="promo-text">Descontos de até 70% em toda a loja. Aproveite as melhores ofertas em produtos eletrônicos!</p>
+            <button class="promo-button">Ver Ofertas</button>
+        </div>
+        <img src="5.jpg" alt="Promoção" class="promo-image">
+    </section>
+
+    <section class="featured">
+        <div class="products-header">
+            <h2 class="section-title">Produtos em Destaque</h2>
+            <div class="sort-container">
+                <span class="sort-label">Ordenar por:</span>
+                <select id="sort-select" class="sort-select">
+                    <option value="recentes">Mais recentes</option>
+                    <option value="preco-asc">Preço: menor para maior</option>
+                    <option value="preco-desc">Preço: maior para menor</option>
+                    <option value="avaliacao">Melhor avaliados</option>
+                </select>
+            </div>
+        </div>
+        <div id="products-container" class="products-container">
+            <!-- Produtos serão carregados aqui via JavaScript -->
+        </div>
+        <div class="pagination">
+            <button id="prev-page" class="page-button">Anterior</button>
+            <span id="page-info" class="page-info">Página 1</span>
+            <button id="next-page" class="page-button">Próxima</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Sobre a Nemesis</h3>
+                <p>Loja especializada em produtos eletrônicos com os melhores preços e qualidade do mercado.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Links Úteis</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Serviço</a></li>
+                    <li><a href="#">Trocas e Devoluções</a></li>
+                    <li><a href="#">Perguntas Frequentes</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Atendimento</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-phone"></i> (11) 1234-5678</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> contato@nemesis.com</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Av. Paulista, 1000 - SP</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Seg-Sex: 9h-18h</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Formas de Pagamento</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                    <i class="fab fa-cc-visa" style="font-size: 2rem;"></i>
+                    <i class="fab fa-cc-mastercard" style="font-size: 2rem;"></i>
+                    <i class="fab fa-cc-amex" style="font-size: 2rem;"></i>
+                    <i class="fab fa-cc-paypal" style="font-size: 2rem;"></i>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 Nemesis Eletrônicos. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, where, orderBy, limit, startAfter, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeydDlOVXSAIiatAJldHv1OOXQpHAmSUw",
+            authDomain: "juciloja.firebaseapp.com",
+            projectId: "juciloja",
+            storageBucket: "juciloja.appspot.com",
+            messagingSenderId: "560206416707",
+            appId: "1:560206416707:web:98c7d4ff8bfc3e297bbdf6",
+            measurementId: "G-MB1LJDK3G3"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Variáveis de estado
+        let currentPage = 1;
+        const productsPerPage = 8;
+        let currentCategory = null;
+        let currentSort = 'recentes';
+        let currentSearchTerm = '';
+        let lastVisibleDoc = null;
+        let isAdminUser = false;
+
+        // Elementos do DOM
+        const productsContainer = document.getElementById('products-container');
+        const prevPageButton = document.getElementById('prev-page');
+        const nextPageButton = document.getElementById('next-page');
+        const pageInfo = document.getElementById('page-info');
+        const sortSelect = document.getElementById('sort-select');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+
+        // Função para verificar se o usuário é admin (CORRIGIDA)
+        async function checkIfAdmin(user) {
+            if (!user) {
+                console.log("Nenhum usuário logado");
+                return false;
+            }
+            
+            // DEBUG: Forçar admin para seu UID específico - REMOVA ISSO EM PRODUÇÃO!
+            if (user.uid === "tcOm2TE4ZISAkKhCiHKVJYGrGbS2") {
+                console.log("Acesso concedido como admin (UID especial)");
+                return true;
+            }
+            
+            try {
+                const adminDocRef = doc(db, "admins", user.uid);
+                const adminDoc = await getDoc(adminDocRef);
+                
+                if (adminDoc.exists()) {
+                    console.log("Usuário é admin confirmado no Firestore");
+                    return true;
+                }
+                
+                console.log("Usuário não é admin");
+                return false;
+            } catch (error) {
+                console.error("Erro ao verificar admin:", error);
+                return false;
+            }
+        }
+
+        // Função para carregar produtos (CORRIGIDA)
+        async function loadProducts() {
+            try {
+                console.log("Iniciando carregamento de produtos...");
+                productsContainer.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Carregando produtos...</div>';
+                
+                let q = query(collection(db, "produtos"));
+                
+                // Aplicar filtro de categoria
+                if (currentCategory) {
+                    q = query(q, where("categoria", "==", currentCategory));
+                    console.log("Filtrando por categoria:", currentCategory);
+                }
+                
+                // Aplicar filtro de busca
+                if (currentSearchTerm) {
+                    q = query(q, where("nome", ">=", currentSearchTerm),
+                              where("nome", "<=", currentSearchTerm + '\uf8ff'));
+                    console.log("Filtrando por termo de busca:", currentSearchTerm);
+                }
+                
+                // Aplicar ordenação
+                switch (currentSort) {
+                    case 'recentes':
+                        q = query(q, orderBy("dataCadastro", "desc"));
+                        break;
+                    case 'preco-asc':
+                        q = query(q, orderBy("preco", "asc"));
+                        break;
+                    case 'preco-desc':
+                        q = query(q, orderBy("preco", "desc"));
+                        break;
+                    case 'avaliacao':
+                        q = query(q, orderBy("rating", "desc"));
+                        break;
+                }
+                
+                // Paginação
+                q = query(q, limit(productsPerPage));
+                
+                if (currentPage > 1 && lastVisibleDoc) {
+                    q = query(q, startAfter(lastVisibleDoc));
+                }
+                
+                const querySnapshot = await getDocs(q);
+                console.log("Documentos encontrados:", querySnapshot.size);
+                
+                if (querySnapshot.empty) {
+                    productsContainer.innerHTML = '<div class="empty">Nenhum produto encontrado.</div>';
+                    return;
+                }
+                
+                // Atualizar último documento visível para paginação
+                lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+                
+                // Construir HTML dos produtos
+                let html = '';
+                querySnapshot.forEach(doc => {
+                    const product = doc.data();
+                    if (!product) return;
+                    
+                    html += `
+                        <div class="product-card" data-id="${doc.id}">
+                            <img src="${product.imagemUrl || '5.jpg'}" 
+                                 alt="${product.nome || 'Produto sem nome'}" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-name">${product.nome || 'Produto sem nome'}</h3>
+                                <div class="product-rating">
+                                    ${getRatingStars(product.rating || 0)}
+                                    <span>(${product.reviews || 0})</span>
+                                </div>
+                                <p class="product-price">R$ ${(product.preco || 0).toFixed(2)}</p>
+                                <button class="btn-add-cart" data-id="${doc.id}">
+                                    <i class="fas fa-shopping-cart"></i> Adicionar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                productsContainer.innerHTML = html;
+                
+                // Atualizar controles de paginação
+                updatePaginationControls();
+                
+                // Adicionar eventos aos botões
+                document.querySelectorAll('.btn-add-cart').forEach(button => {
+                    button.addEventListener('click', addToCart);
+                });
+                
+            } catch (error) {
+                console.error("Erro ao carregar produtos:", error);
+                productsContainer.innerHTML = `
+                    <div class="error">
+                        <p>Erro ao carregar produtos.</p>
+                        <p>${error.message}</p>
+                        <button onclick="location.reload()">Recarregar página</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Função para atualizar controles de paginação
+        function updatePaginationControls() {
+            prevPageButton.disabled = currentPage <= 1;
+            pageInfo.textContent = `Página ${currentPage}`;
+            nextPageButton.disabled = false; // Simplificado para demonstração
+        }
+
+        // Função para criar estrelas de avaliação
+        function getRatingStars(rating) {
+            rating = rating || 0;
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    stars += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+
+// Função para adicionar ao carrinho
+function addToCart(e) {
+    const productId = e.target.getAttribute('data-id');
+    
+    // Obter carrinho atual do localStorage
+    const cart = JSON.parse(localStorage.getItem('nemesis-cart')) || [];
+    
+    // Verificar se o produto já está no carrinho
+    const existingItem = cart.find(item => item.id === productId);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ id: productId, quantity: 1 });
+    }
+    
+    // Salvar no localStorage
+    localStorage.setItem('nemesis-cart', JSON.stringify(cart));
+    
+    // Mostrar feedback visual
+    const btn = e.target;
+    btn.innerHTML = '<i class="fas fa-check"></i> Adicionado';
+    btn.classList.add('added');
+    
+    setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Adicionar';
+        btn.classList.remove('added');
+    }, 2000);
+    
+    // Atualizar contador no ícone do carrinho (opcional)
+    updateCartCounter();
+}
+
+// Função para atualizar contador do carrinho (adicione ao seu JavaScript)
+function updateCartCounter() {
+    const cart = JSON.parse(localStorage.getItem('nemesis-cart')) || [];
+    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    
+    // Adicione um elemento de contador no seu ícone do carrinho
+    let counter = document.querySelector('.cart-counter');
+    
+    if (!counter) {
+        counter = document.createElement('span');
+        counter.className = 'cart-counter';
+        document.querySelector('.fa-shopping-cart').parentNode.appendChild(counter);
+    }
+    
+    counter.textContent = totalItems > 0 ? totalItems : '';
+    counter.style.display = totalItems > 0 ? 'block' : 'none';
+}
+
+// Chame esta função quando a página carregar e quando o carrinho for atualizado
+document.addEventListener('DOMContentLoaded', updateCartCounter);
+
+        // Função para atualizar informações do usuário (CORRIGIDA)
+        async function updateUserInfo(user) {
+            const userInfo = document.getElementById('user-info');
+            const adminItems = document.querySelectorAll('.admin-only');
+            
+            if (user) {
+                isAdminUser = await checkIfAdmin(user);
+                console.log("Status de admin atualizado:", isAdminUser);
+                
+                // Mostrar/ocultar itens de admin
+                adminItems.forEach(item => {
+                    item.style.display = isAdminUser ? 'block' : 'none';
+                });
+
+                userInfo.innerHTML = `
+                    <div class="user-profile">
+                        <a href="#" id="profile-link" class="nav-link">
+                            <img src="${user.photoURL || '5.jpg'}" 
+                                 alt="${user.displayName || 'Usuário'}" class="user-avatar">
+                            <span class="nav-label">${user.displayName || 'Usuário'} ${isAdminUser ? '(Admin)' : ''}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item"><a href="#" class="nav-link dropdown-title" id="logout-link">Sair</a></li>
+                        </ul>
+                    </div>
+                `;
+
+                document.getElementById("profile-link")?.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    window.location.href = "perfil.html";
+                });
+
+                document.getElementById("logout-link")?.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    signOut(auth).then(() => {
+                        window.location.reload();
+                    });
+                });
+            } else {
+                // Ocultar itens de admin quando não logado
+                adminItems.forEach(item => {
+                    item.style.display = 'none';
+                });
+                
+                userInfo.innerHTML = `
+                    <a href="Login.html" class="nav-link">
+                        <span class="material-symbols-rounded">login</span>
+                        <span class="nav-label">Entrar</span>
+                    </a>
+                `;
+            }
+        }
+
+        // Event Listeners (ATUALIZADO)
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM carregado, iniciando configuração...");
+            
+            // Carregar produtos inicialmente
+            loadProducts();
+            
+            // Monitorar estado de autenticação
+            onAuthStateChanged(auth, async (user) => {
+                console.log("Estado de autenticação alterado:", user ? "Usuário logado" : "Usuário não logado");
+                await updateUserInfo(user);
+                
+                // DEBUG: Log adicional para admin
+                if (user && user.uid === "tcOm2TE4ZISAkKhCiHKVJYGrGbS2") {
+                    console.log("Usuário especial detectado, status admin:", isAdminUser);
+                }
+            });
+            
+            // Configurar eventos de categoria
+            document.querySelectorAll('.category-card, .dropdown-link[data-category]').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentCategory = element.getAttribute('data-category');
+                    currentPage = 1;
+                    lastVisibleDoc = null;
+                    loadProducts();
+                });
+            });
+            
+            // Configurar evento de ordenação
+            sortSelect.addEventListener('change', () => {
+                currentSort = sortSelect.value;
+                currentPage = 1;
+                lastVisibleDoc = null;
+                loadProducts();
+            });
+            
+            // Configurar evento de busca
+            searchButton.addEventListener('click', () => {
+                currentSearchTerm = searchInput.value.trim();
+                currentPage = 1;
+                lastVisibleDoc = null;
+                loadProducts();
+            });
+            
+            // Configurar paginação
+            prevPageButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    loadProducts();
+                }
+            });
+            
+            nextPageButton.addEventListener('click', () => {
+                currentPage++;
+                loadProducts();
+            });
+        });
+// Substitua o código do menu hamburguer por este:
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+    const icon = menuToggle.querySelector('i');
+
+    menuToggle.addEventListener('click', () => {
+        // Alternar visibilidade do menu
+        nav.classList.toggle('nav-active');
+        
+        // Alternar ícone
+        if (nav.classList.contains('nav-active')) {
+            icon.classList.replace('fa-bars', 'fa-times');
+        } else {
+            icon.classList.replace('fa-times', 'fa-bars');
+        }
+    });
+
+    // Fechar menu ao clicar em um link (mobile)
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 992) {
+                nav.classList.remove('nav-active');
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+    });
+});
+    </script>
+</body>
+</html>
